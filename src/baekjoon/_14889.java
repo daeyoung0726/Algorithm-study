@@ -44,6 +44,10 @@ public class _14889 {
             int team2Score = teamScore(team2);
 
             MIN = Math.min(MIN, Math.abs(team1Score-team2Score));
+            if(MIN == 0) {
+                System.out.println(MIN);
+                System.exit(0);
+            }
             return;
         }
 
