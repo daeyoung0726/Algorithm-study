@@ -62,9 +62,9 @@ class UnionFind {
         int rootY = find(y);
 
         if (rootX != rootY) {
-            if (rootX > rootY)
+            if (rank[rootX] > rank[rootY])
                 parent[rootY] = rootX;
-            else if (rootX < rootY)
+            else if (rank[rootX] < rank[rootY])
                 parent[rootX] = rootY;
             else {
                 parent[rootY] = rootX;
