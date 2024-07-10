@@ -11,6 +11,7 @@ public class _1260 {
     private static boolean[] visitedDFS;
     private static boolean[] visitedBFS;
 
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
