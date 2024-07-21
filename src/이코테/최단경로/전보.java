@@ -61,7 +61,7 @@ public class 전보 {
             distance[p.getX()] = p.getY();
         }
 
-        for (int i = 1; i < n+1; i++) {
+        for (int i = 1; i < n; i++) {
             int min = getMinimum(n);
             if (min == -1)
                 continue;
@@ -107,14 +107,10 @@ public class 전보 {
 
         while (!pq.isEmpty()) {
             Point now = pq.poll();
-            if (visited[now.getX()]) continue;
-            visited[now.getX()] = true;
 
             for (Point p: graph.get(now.getX())) {
-                if (!visited[p.getX()]) {
-                    int min = Math.min(distance[p.getX()], distance[now.getX()] + p.getY());
-                    pq.add(new Point(p.getX(), min));
-                }
+                int min = Math.min(distance[p.getX()], distance[now.getX()] + p.getY());
+                pq.add(new Point(p.getX(), min));
             }
         }
     }
