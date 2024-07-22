@@ -49,7 +49,9 @@ public class _1504 {
                 if (k == i)
                     continue;
                 for (int j = 1; j < n+1; j++) {
-                    arr[i][j] = Math.min(arr[i][j], arr[i][k] + arr[k][j]);
+                    if (arr[i][k] != 100000000 && arr[k][j] != 100000000) {
+                        arr[i][j] = Math.min(arr[i][j], arr[i][k] + arr[k][j]);
+                    }
                 }
             }
         }
