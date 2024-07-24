@@ -13,6 +13,7 @@ public class _1504 {
 
         StringTokenizer str = new StringTokenizer(br.readLine(), " ");
 
+
         int n = Integer.parseInt(str.nextToken());
         int e = Integer.parseInt(str.nextToken());
 
