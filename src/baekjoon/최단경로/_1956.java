@@ -36,7 +36,13 @@ public class _1956 {
         }
 
         floyd(v);
-        System.out.println(findResult(v));
+        int result = findResult(v);
+
+        if (result == INF) {
+            System.out.println(-1);
+        } else {
+            System.out.println(result);
+        }
     }
 
     private static void floyd(int v) {
