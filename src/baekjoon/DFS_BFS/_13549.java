@@ -1,4 +1,4 @@
-package baekjoon.최단경로;
+package baekjoon.DFS_BFS;
 
 import java.util.*;
 
@@ -30,7 +30,8 @@ public class _13549 {
                 return visited[now] - 1;
             }
 
-            int[] next = { 2*now, now-1, now+1};        // 순간이동 (2*now)는 0초이기에 먼저 처리해줘야함.
+            int[] next = { 2*now, now-1, now+1};
+            // 순간이동 (2*now)는 0초이기에 먼저 처리해줘야함. 왜냐면, 뒤에 해버리면 0으로 저장되기에 다른 수에 의해 1이 업뎃될 수 있음.
 
             for (int i = 0; i < 3; i++) {
                 if (next[i] >= 0 && next[i] < 100001 && visited[next[i]] == 0) {
