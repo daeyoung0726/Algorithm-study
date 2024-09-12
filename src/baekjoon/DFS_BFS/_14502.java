@@ -28,23 +28,24 @@ public class _14502 {
             }
         }
 
-        dfs(0, 0);
+        dfs(0, 0, 0);
 
         System.out.println(max);
     }
 
     // 벽 세우기
-    private static void dfs(int x, int start) {
+    private static void dfs(int x, int y, int start) {
         if (start == 3) {
             bfs();
             return;
         }
 
         for (int i = x; i < n; i++) {
-            for (int j = 0; j < m; j++) {
+            // j를 y부터 시작하고, 그 이후로만 탐색하게 합니다.
+            for (int j = (i == x ? y : 0); j < m; j++) {
                 if (map[i][j] == 0) {
                     map[i][j] = 1;
-                    dfs(i, start+1);
+                    dfs(i, j+1, start + 1);  // 다음 위치부터 탐색을 이어갑니다.
                     map[i][j] = 0;
                 }
             }
