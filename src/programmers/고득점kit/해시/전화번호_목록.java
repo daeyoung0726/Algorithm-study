@@ -1,4 +1,4 @@
-package programmers;
+package programmers.고득점kit.해시;
 
 import java.util.HashMap;
 import java.util.Map;
