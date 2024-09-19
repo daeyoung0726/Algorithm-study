@@ -7,88 +7,63 @@ import java.util.*;
 
 public class _2178 {
 
-    private static int[][] visited;
-    private static int min = Integer.MAX_VALUE;
-    private static int N;
-    private static int M;
-    private static int[] dx = { -1, 1, 0, 0 };
-    private static int[] dy = { 0, 0, -1, 1 };
+    private static int[][] map;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         StringTokenizer str = new StringTokenizer(br.readLine(), " ");
-        N = Integer.parseInt(str.nextToken());
-        M = Integer.parseInt(str.nextToken());
 
-        visited = new int[N][M];
+        int n = Integer.parseInt(str.nextToken());
+        int m = Integer.parseInt(str.nextToken());
 
-        for (int i = 0; i < N; i++) {
+        map = new int[n][m];
+
+        for (int i = 0; i < n; i++) {
             String s = br.readLine();
-
-            for(int j = 0; j < s.length(); j++) {
-                visited[i][j] = s.charAt(j) - '0';
+            for (int j = 0; j < m; j++) {
+                map[i][j] = s.charAt(j) - '0';
             }
         }
-        System.out.println(bfs(0, 0));
+
+        System.out.println(dfs(0, 0, n, m));
+
     }
 
-    private static void dfs(int x, int y, int count) {
+    private static int dfs(int x, int y, int n, int m) {
+        Queue<Point13> queue = new LinkedList<>();
 
-        if (x == N-1 && y == M-1) {
-            min = Math.min(min, count);
-            return;
-        }
+        queue.add(new Point13(x, y));
 
-        for (int i = 0; i < 4; i++) {
-            int nx = x + dx[i];
-            int ny = y + dy[i];
-
-            if (nx >= 0 && ny >= 0 && nx < N && ny < M && visited[nx][ny] == 1) {
-                visited[nx][ny] = 0;
-                dfs(nx, ny, count+1);
-                visited[nx][ny] = 1;
-            }
-        }
-    }
-
-    private static int bfs(int x, int y) {
-        Queue<Point2> queue = new LinkedList<>();
-
-        queue.add(new Point2(x, y));
+        int[] dx = { -1, 0, 1, 0 };
+        int[] dy = { 0, -1, 0, 1 };
 
         while (!queue.isEmpty()) {
-            Point2 now = queue.poll();
+            Point13 now = queue.poll();
 
             for (int i = 0; i < 4; i++) {
-                int nx = now.getX() + dx[i];
-                int ny = now.getY() + dy[i];
+                int nx = now.x + dx[i];
+                int ny = now.y + dy[i];
 
-                if (nx >= 0 && ny >= 0 && nx < N && ny < M && visited[nx][ny] == 1) {
-                    visited[nx][ny] = visited[now.getX()][now.getY()] + 1;
-                    queue.add(new Point2(nx, ny));
+                if (nx >= 0 && ny >= 0 && nx < n && ny < m) {
+                    if (map[nx][ny] == 1) {
+                        map[nx][ny] = map[now.x][now.y] + 1;
+                        queue.add(new Point13(nx, ny));
+                    }
                 }
             }
         }
 
-        return visited[N-1][M-1];
+        return map[n-1][m-1];
     }
 }
 
-class Point2 {
-    private int x;
-    private int y;
+class Point13 {
+    int x;
+    int y;
 
-    Point2(int x, int y) {
+    Point13(int x, int y) {
         this.x = x;
         this.y = y;
-    }
-
-    int getX() {
-        return this.x;
-    }
-
-    int getY() {
-        return this.y;
     }
 }
