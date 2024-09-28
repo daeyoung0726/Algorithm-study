@@ -71,7 +71,7 @@ public class _1753 {
             if (distance[u] < now.getY()) continue;
 
             for (Point p: graph.get(u)) {
-                if (distance[p.getX()] > distance[u] + p.getY()) {
+                if (distance[p.getX()] > distance[u] + p.getY()) { // 가고자 하는 곳 거리 (원래 기존값) > 거쳐가는 최단 경로 + u에서 p로 가는 거리
                     distance[p.getX()] = distance[u] + p.getY();
                     pq.add(new Point(p.getX(), distance[p.getX()]));
                 }
