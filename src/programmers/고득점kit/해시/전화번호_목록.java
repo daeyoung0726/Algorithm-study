@@ -3,7 +3,7 @@ package programmers.고득점kit.해시;
 import java.util.HashMap;
 import java.util.Map;
 
-public class 전화번호목록 {
+public class 전화번호_목록 {
     private static Map<String, Boolean> map;
 
     public boolean solution(String[] phone_book) {
@@ -15,8 +15,7 @@ public class 전화번호목록 {
             map.put(phone, true);
 
         for(int i = 0; i < phone_book.length; i++) {
-            answer = checkNumber(phone_book[i]);
-            if(answer == false)
+            if(!checkNumber(phone_book[i]))
                 break;
         }
 
@@ -34,3 +33,25 @@ public class 전화번호목록 {
         return true;
     }
 }
+
+/*
+import java.util.*;
+
+class Solution {
+    public boolean solution(String[] phone_book) {
+
+        Arrays.sort(phone_book, (a, b) -> a.compareTo(b));
+        boolean answer = true;
+
+
+        for (int i = 1; i < phone_book.length; i++) {
+            if (phone_book[i].startsWith(phone_book[i-1])) {
+                answer = false;
+                break;
+            }
+        }
+
+        return answer;
+    }
+}
+ */
