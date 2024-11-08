@@ -1,4 +1,4 @@
-package baekjoon.DFS_BFS;
+package baekjoon.구현;
 
 // bfs로 근처 확인. (방문한 곳을 true함)
 // 만약 4개 이상이면 터트림.
