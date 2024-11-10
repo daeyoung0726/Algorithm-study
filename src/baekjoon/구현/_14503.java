@@ -5,7 +5,94 @@ import java.io.InputStreamReader;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
+// dx, dy를 설정.
+// 주변 네 곳 지저분한지 확인. 만약 지저분하다면, 반시계로 회전하고, 앞으로 전진 가능한지 확인(더러운지)
+// 없다면 후진. 후진 못하면 종료
+// 1이 벽, 0이 청소안된 것. 로봇 청소기는 무조건 0에 위치하기에 청소 디폴트값은 1 (6:30)
+
 public class _14503 {
+
+    private static int[][] map;
+
+    private static int[] dx = { -1, 0, 1, 0 };
+    private static int[] dy = { 0, 1, 0, -1 };
+    private static int x;
+    private static int y;
+    private static int dir;
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer str = new StringTokenizer(br.readLine(), " ");
+        int n = Integer.parseInt(str.nextToken());
+        int m = Integer.parseInt(str.nextToken());
+
+        map = new int[n][m];
+
+        str = new StringTokenizer(br.readLine(), " ");
+        x = Integer.parseInt(str.nextToken());
+        y = Integer.parseInt(str.nextToken());
+        dir = Integer.parseInt(str.nextToken());
+
+        for (int i = 0; i < n; i++) {
+            str = new StringTokenizer(br.readLine(), " ");
+            for (int j = 0; j < m; j++) {
+                map[i][j] = Integer.parseInt(str.nextToken());
+            }
+        }
+
+        int count = 1;
+        map[x][y] = 2;  // 처음 위치 2로 바꿔주기.       이것보단 아래 원래 식처럼 visited를 해주는게 좋을끼? 그런데 그 문제도 결국엔 처음 것에대한  처리 있어야함
+        while (true) {
+
+            if (isDirty(n, m)) {    // 4칸 확인 후 있다면,
+                count++;
+            } else {
+                if (!move(n, m)) {
+                    break;
+                }
+            }
+        }
+
+        System.out.println(count);
+    }
+
+    private static boolean isDirty(int n, int m) {
+
+        int nx, ny;
+        int d = dir;
+        for (int i = 0; i < 4; i++) {
+            d = (d - 1 >= 0) ? (d - 1) : 3;
+            nx = x + dx[d];
+            ny = y + dy[d];
+            if (nx >= 0 && ny >= 0 && nx < n && ny < m && map[nx][ny] == 0) {
+                x += dx[d];
+                y += dy[d];
+                map[nx][ny] = 2;
+                dir = d;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static boolean move(int n, int m) {
+        int d = (dir + 2) % 4;
+        int nx = x + dx[d];
+        int ny = y + dy[d];
+
+        if (nx < 0 || ny < 0 || nx >= n || ny >= m || map[nx][ny] == 1) {
+            return false;
+        }
+
+        x = nx;
+        y = ny;
+        return true;
+    }
+}
+
+/*public class _14503 {
 
     private static int[][] location;
     private static boolean[][] visited;
@@ -78,7 +165,7 @@ public class _14503 {
     private static boolean isInBounds(int r, int c) {
         return r >= 0 && r < n && c >= 0 && c < m;
     }
-}
+}*/
 
 /*
 public class _14503 {
