@@ -1,96 +1,100 @@
 package baekjoon.구현;
 
-import java.io.InputStreamReader;
 import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.IOException;
 import java.util.*;
 
 public class _3190 {
 
-    private static int n;
-    private static int[] dis = { 1, 1, -1, -1 };
-    private static int nowVector = 0;
-    private static ArrayList<Point> list = new ArrayList<>();
-    private static int nowX;
-    private static int nowY;
-
+    private static int[][] map;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        n = Integer.parseInt(br.readLine());
-        int[][] arr = new int[n][n];
-
+        int n = Integer.parseInt(br.readLine());
         int k = Integer.parseInt(br.readLine());
 
+        map = new int[n][n];
         StringTokenizer str;
+
         for (int i = 0; i < k; i++) {
             str = new StringTokenizer(br.readLine(), " ");
-            int x = Integer.parseInt(str.nextToken());
-            int y = Integer.parseInt(str.nextToken());
-
-            arr[x-1][y-1] = 1;
+            int x = Integer.parseInt(str.nextToken()) - 1;
+            int y = Integer.parseInt(str.nextToken()) - 1;
+            map[x][y] = 1;
         }
 
         int l = Integer.parseInt(br.readLine());
-        Turn[] t = new Turn[l];
+
+        Node12[] nodes = new Node12[l];
+
         for (int i = 0; i < l; i++) {
             str = new StringTokenizer(br.readLine(), " ");
-            int a = Integer.parseInt(str.nextToken());
-            String c = str.nextToken();
-            t[i] = new Turn(a, c);
+            int time = Integer.parseInt(str.nextToken());
+            char dir = str.nextToken().charAt(0);
+
+            nodes[i] = new Node12(time, dir);
         }
 
+        System.out.println(dummyRun(nodes, n));
+    }
+
+    private static int dummyRun(Node12[] nodes, int n) {
+        Deque<Point> deque = new LinkedList<>();
+
+        deque.add(new Point(0, 0));
+
+        int[] dx = { 0, 1, 0, -1 };
+        int[] dy = { 1, 0, -1, 0 };
+
+        int dir = 0;
         int time = 0;
-        nowX = 0;
-        nowY = 0;
-        int turnTime = 0;
-        list.add(new Point(nowX, nowY));
+        int idx = 0;
 
         while (true) {
-            time++;
-            movePoint();
+            Point now = deque.peekLast();
+            int nx = now.x + dx[dir];
+            int ny = now.y + dy[dir];
 
-            if (!invalidTest()) {
+            time++;
+
+            if (nx < 0 || ny < 0 || nx >= n || ny >= n) {
                 break;
             }
 
-            list.add(new Point(nowX, nowY));
-
-            if (turnTime < l && time == t[turnTime].t) {
-                if (t[turnTime].vector.equals("L"))
-                    nowVector = (nowVector != 0) ? (nowVector - 1) : 3;
-                if (t[turnTime].vector.equals("D"))
-                    nowVector = (nowVector != 3) ? (nowVector + 1) : 0;
-                turnTime++;
+            if (deque.contains(new Point(nx, ny))) {
+                break;
             }
 
-            if (arr[nowX][nowY] == 1) {
-                arr[nowX][nowY] = 0;
+            if (map[nx][ny] == 1) {
+                map[nx][ny] = 0;
             } else {
-                list.remove(0);
+                deque.poll();
+            }
+            deque.add(new Point(nx, ny));
+
+            if (idx < nodes.length && time == nodes[idx].time) {
+                if (nodes[idx].dir == 'D') {
+                    dir = (dir + 1) % 4;
+                }
+                if (nodes[idx].dir == 'L') {
+                    dir = (dir - 1) >= 0 ? (dir - 1) : 3;
+                }
+                idx++;
             }
         }
 
-        System.out.println(time);
+        return time;
     }
+}
 
-    private static boolean invalidTest() {
-        if (nowX < 0 || nowY < 0 || nowX > n-1 || nowY > n-1)
-            return false;
-        if (list.contains(new Point(nowX, nowY)))
-            return false;
-        return true;
-    }
+class Node12 {
+    int time;
+    char dir;
 
-    private static void movePoint() {
-        if (nowVector == 0)
-            nowY += dis[0];
-        if (nowVector == 1)
-            nowX += dis[1];
-        if (nowVector == 2)
-            nowY += dis[2];
-        if (nowVector == 3)
-            nowX += dis[3];
+    Node12(int time, char dir) {
+        this.time = time;
+        this.dir = dir;
     }
 }
 
@@ -109,15 +113,5 @@ class Point {
         if (this.x == p.x && this.y == p.y)
             return true;
         return false;
-    }
-}
-
-class Turn {
-    int t;
-    String vector;
-
-    Turn(int t, String vector) {
-        this.t = t;
-        this.vector = vector;
     }
 }
