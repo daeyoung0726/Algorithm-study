@@ -3,7 +3,10 @@ package programmers;
 // 연결된 횟수를 계산. 연결된 정점들 list에 저장.
 // 리프노드들 부터 확인.
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Objects;
+import java.util.Queue;
 
 public class 등대 {
     private ArrayList<ArrayList<Integer>> graphs;
