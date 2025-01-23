@@ -1,0 +1,6 @@
+SELECT MEMBER_ID, MEMBER_NAME, GENDER, DATE_FORMAT(DATE_OF_BIRTH, "%Y-%m-%d") DATE_OF_BIRTH
+FROM MEMBER_PROFILE
+WHERE TLNO is Not Null AND month(DATE_OF_BIRTH) = '03' AND GENDER = 'W'
+ORDER BY MEMBER_ID;
+
+-- Y : 뒷 두자리, y : 전체 연도. M : 영어, m : 숫자 달. D : 영어, d : 숫자 일
