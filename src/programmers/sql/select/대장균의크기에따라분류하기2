@@ -1,0 +1,19 @@
+SELECT id,
+        IF (e.ranks / e.counts <= 0.25, 'CRITICAL',
+           IF (e.ranks / e.counts <= 0.5, 'HIGH',
+             IF (e.ranks / e.counts <= 0.75, 'MEDIUM', 'LOW'))) AS colony_name
+FROM (SELECT *,
+     RANK() OVER(ORDER BY size_of_colony DESC) AS ranks,
+     (SELECT count(*) FROM ecoli_data) AS counts
+     FROM ecoli_data) AS e
+ORDER BY id;
+
+SELECT id,
+        IF (e.ranks / e.counts <= 0.25, 'CRITICAL',
+           IF (e.ranks / e.counts <= 0.5, 'HIGH',
+             IF (e.ranks / e.counts <= 0.75, 'MEDIUM', 'LOW'))) AS colony_name
+FROM (SELECT *,
+     RANK() OVER(ORDER BY size_of_colony DESC) AS ranks,
+     COUNT(*) OVER() AS counts
+     FROM ecoli_data) AS e
+ORDER BY id;
