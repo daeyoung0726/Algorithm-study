@@ -1,0 +1,30 @@
+WITH RECURSIVE rc AS (
+    SELECT id, parent_id, 1 AS gen
+    FROM ecoli_data
+    WHERE parent_id IS NULL
+
+    UNION ALL
+
+    SELECT e.id, e.parent_id, rc.gen + 1 AS gen
+    FROM ecoli_data e
+    JOIN rc ON rc.id = e.parent_id
+)
+
+SELECT count(id) AS COUNT, gen AS GENERATION
+FROM rc
+WHERE id NOT IN (
+    SELECT parent_id
+    FROM rc
+    WHERE parent_id IS NOT NULL
+)
+GROUP BY gen
+ORDER BY gen;
+
+-- or
+
+SELECT count(rc1.id) AS COUNT, rc1.gen AS GENERATION
+FROM rc rc1
+LEFT JOIN rc rc2 ON rc1.id = rc2.parent_id
+WHERE rc2.parent_id IS NULL
+GROUP BY rc1.gen
+ORDER BY rc1.gen;
