@@ -1,0 +1,5 @@
+SELECT DISTINCT id, email, first_name, last_name
+FROM skillcodes s JOIN developers d
+        ON s.name IN ('C#', 'Python')
+        AND (s.code & d.skill_code) = s.code
+ORDER BY id;
