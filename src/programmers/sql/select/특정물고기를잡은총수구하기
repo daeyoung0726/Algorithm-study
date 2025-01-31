@@ -1,0 +1,3 @@
+SELECT count(*) AS FISH_COUNT
+FROM fish_info i JOIN fish_name_info n ON i.fish_type = n.fish_type
+WHERE n.fish_name IN ('BASS', 'SNAPPER');
