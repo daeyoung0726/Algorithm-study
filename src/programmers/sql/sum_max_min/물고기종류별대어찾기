@@ -1,0 +1,8 @@
+SELECT f1.id, f2.fish_name, f1.length
+FROM fish_info f1
+JOIN fish_name_info f2
+ON f1.fish_type = f2.fish_type
+WHERE (f1.fish_type, f1.length) IN (SELECT fish_type, max(length)
+                  FROM fish_info
+                  GROUP BY fish_type)
+ORDER BY f1.id;
