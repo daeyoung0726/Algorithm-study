@@ -1,0 +1,8 @@
+SELECT count(distinct name) AS count
+FROM animal_ins
+WHERE name IS NOT NULL;
+
+SELECT count(*)
+FROM (SELECT distinct name
+     FROM animal_ins
+     WHERE name IS NOT NULL) AS a;
