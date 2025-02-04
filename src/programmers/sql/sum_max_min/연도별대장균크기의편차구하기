@@ -1,0 +1,10 @@
+SELECT YEAR(e1.differentiation_date) AS year,
+       (e2.max_size_of_colony - e1.size_of_colony) AS year_dev,
+       e1.id
+FROM ecoli_data e1
+JOIN (SELECT max(size_of_colony) AS max_size_of_colony,
+      YEAR(differentiation_date) AS year
+     FROM ecoli_data
+     GROUP BY YEAR(differentiation_date)) AS e2
+ON YEAR(e1.differentiation_date) = e2.year
+ORDER BY year, year_dev;
