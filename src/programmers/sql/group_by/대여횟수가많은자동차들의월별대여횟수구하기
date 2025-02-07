@@ -1,0 +1,11 @@
+SELECT MONTH(start_date) AS month, c1.car_id, count(*) AS records
+FROM car_rental_company_rental_history c1
+JOIN (SELECT car_id
+     FROM car_rental_company_rental_history
+     WHERE MONTH(start_date) between 8 AND 10
+     GROUP BY car_id
+     HAVING count(car_id) >= 5) AS c2
+ON c1.car_id = c2.car_id
+WHERE MONTH(start_date) between 8 AND 10
+GROUP BY month, c1.car_id
+ORDER BY month, c1.car_id DESC;
