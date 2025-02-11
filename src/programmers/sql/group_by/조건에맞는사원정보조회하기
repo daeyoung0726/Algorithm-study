@@ -1,0 +1,22 @@
+SELECT g.score, e.emp_no, e.emp_name, e.position, e.email
+FROM HR_EMPLOYEES e
+JOIN (SELECT emp_no, sum(score) AS score
+     FROM HR_GRADE
+     WHERE year = '2022'
+     GROUP BY emp_no) AS g
+ON e.emp_no = g.emp_no
+ORDER BY score DESC
+LIMIT 1;
+
+SELECT g.score, e.emp_no, e.emp_name, e.position, e.email
+FROM HR_EMPLOYEES e
+JOIN (SELECT emp_no, sum(score) AS score
+     FROM HR_GRADE
+     WHERE year = '2022'
+     GROUP BY emp_no) AS g
+ON e.emp_no = g.emp_no
+WHERE g.score = (SELECT max(score)
+                FROM (SELECT emp_no, sum(score) AS score
+                        FROM HR_GRADE
+                        WHERE year = '2022'
+                        GROUP BY emp_no) AS nn);
