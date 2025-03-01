@@ -1,0 +1,30 @@
+SELECT c1.car_id, c1.car_type, ROUND(c1.daily_fee * (100 - c3.discount_rate) / 100 * 30) AS fee
+FROM car_rental_company_car c1
+LEFT JOIN (SELECT car_id
+          FROM car_rental_company_rental_history
+           WHERE NOT (end_date < '2022-11-01' OR start_date > '2022-11-30')
+          GROUP BY car_id) AS c2 ON c1.car_id = c2.car_id
+JOIN (SELECT car_type, discount_rate
+     FROM car_rental_company_discount_plan
+     WHERE duration_type LIKE '30일%'
+     GROUP BY car_type) AS c3 ON c1.car_type = c3.car_type
+WHERE c1.car_type IN ('세단', 'SUV')
+AND c2.car_id IS NULL
+AND ROUND(c1.daily_fee * (100 - c3.discount_rate) / 100 * 30) BETWEEN 500000 AND 2000000
+ORDER BY fee DESC, c1.car_type, c1.car_id DESC;
+
+-- 코드를 입력하세요
+SELECT c1.car_id, c1.car_type, ROUND(c1.daily_fee * (100 - c3.discount_rate) / 100 * 30) AS fee
+FROM car_rental_company_car c1
+LEFT JOIN (SELECT car_id
+          FROM car_rental_company_rental_history
+           WHERE NOT (end_date < '2022-11-01' OR start_date > '2022-11-30')
+          GROUP BY car_id) AS c2 ON c1.car_id = c2.car_id
+JOIN (SELECT car_type, discount_rate
+     FROM car_rental_company_discount_plan
+     WHERE duration_type LIKE '30일%'
+     GROUP BY car_type) AS c3 ON c1.car_type = c3.car_type
+WHERE c1.car_type IN ('세단', 'SUV')
+AND c2.car_id IS NULL
+HAVING fee BETWEEN 500000 AND 2000000
+ORDER BY fee DESC, c1.car_type, c1.car_id DESC;
