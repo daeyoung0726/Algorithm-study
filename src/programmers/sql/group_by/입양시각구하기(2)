@@ -1,0 +1,16 @@
+WITH recursive rc AS (
+    SELECT 0 AS hour
+
+    UNION ALL
+
+    SELECT rc.hour + 1 AS hour
+    FROM rc
+    WHERE rc.hour < 23
+)
+
+SELECT rc.hour AS hour,
+       COUNT(a.datetime) AS count
+FROM rc
+LEFT JOIN animal_outs a ON rc.hour = HOUR(a.datetime)
+GROUP BY hour
+ORDER BY hour;
